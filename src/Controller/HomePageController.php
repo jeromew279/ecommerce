@@ -8,11 +8,17 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class HomePageController extends AbstractController
 {
+
+    
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
+        $studentsNames = ["AliBaba", "Alice", "Roger", "Pablo"];
+        $age = 17;
+
         return $this->render('home_page/index.html.twig', [
-            'controller_name' => 'HomePageController',
+            'names' => $studentsNames,
+            'age' => $age
         ]);
     }
 }

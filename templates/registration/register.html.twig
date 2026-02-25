@@ -7,15 +7,19 @@
 
     {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.firstName) }}
-        {{ form_row(registrationForm.lastName) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
+    {{ form_start(registrationForm, {'attr' : {'class': 'loginForm'}}) }}
+        {{ form_widget(registrationForm.email, {'attr' : {'class': 'form form-control mt-3',
+        'placeholder':'email' }}) }}
+        {{ form_widget(registrationForm.firstName, {'attr' : {'class': 'form form-control mt-3',
+        'placeholder':'prénom' }}) }}
+        {{ form_widget(registrationForm.lastName, {'attr' : {'class': 'form form-control mt-3',
+        'placeholder':'nom de famille' }}) }}
+        {{ form_widget(registrationForm.plainPassword, {
+            label: 'Password',
+            'attr' : {'class': 'form form-control mt-3', 'placeholder':'password' }
         }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        {{ form_row(registrationForm.agreeTerms, {'label' : "Veuillez accepter les conditions d'utilisation"}) }}
 
-        <button type="submit" class="btn">Register</button>
+        <button type="submit" class="btn btn-lg btn-primary mt-4">S'enregistrer</button>
     {{ form_end(registrationForm) }}
 {% endblock %}

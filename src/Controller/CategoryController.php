@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints\EnableAutoMapping;
 final class CategoryController extends AbstractController
 {
     #[Route('/category', name: 'app_category')]
-    public function index(): Response
+    public function getSingleCategory(): Response
     {
         return $this->render('category/index.html.twig', [
             'controller_name' => 'CategoryController',
@@ -34,6 +34,21 @@ final class CategoryController extends AbstractController
         }
 
         return $this->render('category/newCategory.html.twig', [
+            'categoryForm' => $form->createView() ]);
+    }
+
+    #[Route('/category/update/{id}', name: 'app_category_update')]
+    public function updateCategory(Category $category, EntityManagerInterface $entityManager, Request $request): Response
+    {        
+        $form = $this->createForm(CategoryFormType::class, $category);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $entityManager->persist($category);
+            $entityManager->flush();
+        }
+
+        return $this->render('category/updateCategory.html.twig', [
             'categoryForm' => $form->createView() ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Repository\CategoryRepository;
 use App\Form\CategoryFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,10 +15,11 @@ use Symfony\Component\Validator\Constraints\EnableAutoMapping;
 final class CategoryController extends AbstractController
 {
     #[Route('/category', name: 'app_category')]
-    public function getSingleCategory(): Response
+    public function index(CategoryRepository $repo): Response
     {
+        $categories = $repo->findall();
         return $this->render('category/index.html.twig', [
-            'controller_name' => 'CategoryController',
+            'categories' => $categories,
         ]);
     }
 
@@ -46,9 +48,24 @@ final class CategoryController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $entityManager->persist($category);
             $entityManager->flush();
+
+            #$this->addFlash('success', 'votre categorie a bien été modifiée'); 
+            return $this->redirectToRoute('app_category');
         }
 
         return $this->render('category/updateCategory.html.twig', [
             'categoryForm' => $form->createView() ]);
+    }
+
+    #[Route('/category/delete/{id}', name: 'app_category_delete')]
+    public function deleteCategory(Category $category, EntityManagerInterface $entityManager, Request $request): Response
+    {        
+        $form = $this->createForm(CategoryFormType::class, $category);
+        $form->handleRequest($request);
+
+        $entityManager->remove($category);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_category');
     }
 }

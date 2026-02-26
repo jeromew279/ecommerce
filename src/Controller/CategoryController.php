@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class CategoryController extends AbstractController
 {
-    #[Route('/category', name: 'app_category')]
+    #[Route('/admin/category', name: 'app_category')]
     public function index(CategoryRepository $repo): Response
     {
         $categories = $repo->findall();
@@ -40,7 +40,7 @@ final class CategoryController extends AbstractController
            'categoryForm' => $form->createView() ]);
     }
 
-    #[Route('/category/update/{id}', name: 'app_category_update')]
+    #[Route('/admin/category/update/{id}', name: 'app_category_update')]
     public function updateCategory(Category $category, EntityManagerInterface $entityManager, Request $request): Response
     {        
         $form = $this->createForm(CategoryFormType::class, $category);
@@ -58,7 +58,7 @@ final class CategoryController extends AbstractController
             'categoryForm' => $form->createView() ]);
     }
 
-    #[Route('/category/delete/{id}', name: 'app_category_delete')]
+    #[Route('/admin/category/delete/{id}', name: 'app_category_delete')]
     public function deleteCategory(Category $category, EntityManagerInterface $entityManager, Request $request): Response
     {        
         $form = $this->createForm(CategoryFormType::class, $category);

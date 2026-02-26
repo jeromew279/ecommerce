@@ -3,14 +3,16 @@
 {% block body %}
 
 <div class="container">
-    <h1 class="mt-4 mb-5">Categories</h1>
+    <h1 class="mt-4 mb-5">Catégories</h1>
+
+    <a class="btn btn-success" href="{{ path('app_category_new') }}">Nouvelle catégorie</a>
 
     {% if categories is empty %}
-    There are no categories.
+    Aucune catégorie.
     {% else %}
     <table class="table-borderless">
     <tr>
-        <th>Name</th>
+        <th>Nom</th>
         <th>Action</th>
     </tr>
 
@@ -19,11 +21,13 @@
     <td>{{category.name}}</td>
     <td>
         <a class="btn btn-outline-primary" href="{{ path('app_category_update', {'id':category.id}) }}">Modifier</a>
-        <a class="btn btn-outline-danger" href="{{ path('app_category_delete', {'id':category.id}) }}">Supprimer</a>
+        <a class="btn btn-danger" href="{{ path('app_category_delete', {'id':category.id}) }}">Supprimer</a>
     </td>
     </tr>
     {% endfor %}
     {% endif %}
     </table>
+
+
 </div>
 {% endblock %}

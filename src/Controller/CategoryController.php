@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Validator\Constraints\EnableAutoMapping;
 
 final class CategoryController extends AbstractController
 {
@@ -33,10 +32,11 @@ final class CategoryController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $entityManager->persist($category);
             $entityManager->flush();
+            return $this->redirectToRoute('app_category');
         }
 
         return $this->render('category/newCategory.html.twig', [
-            'categoryForm' => $form->createView() ]);
+           'categoryForm' => $form->createView() ]);
     }
 
     #[Route('/category/update/{id}', name: 'app_category_update')]
@@ -46,7 +46,6 @@ final class CategoryController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $entityManager->persist($category);
             $entityManager->flush();
 
             #$this->addFlash('success', 'votre categorie a bien été modifiée'); 
